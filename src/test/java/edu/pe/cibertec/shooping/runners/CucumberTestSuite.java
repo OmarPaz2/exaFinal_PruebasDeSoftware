@@ -13,5 +13,6 @@ import org.junit.platform.suite.api.Suite;
         key = Constants.GLUE_PROPERTY_NAME,
         value = "edu.pe.cibertec.shooping.steps,edu.pe.cibertec.shooping.hooks"
 )
+
 public class CucumberTestSuite {
 }

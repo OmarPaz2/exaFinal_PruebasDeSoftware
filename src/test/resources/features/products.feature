@@ -1,3 +1,4 @@
+@products
 Feature: Product filtering in Shooping Cart application
   As a logged-in user
   I want to filter productos by category

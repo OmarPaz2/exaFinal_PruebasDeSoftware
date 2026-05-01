@@ -19,7 +19,12 @@ public class AppiumHooks {
     private static final String APPIUM_SERVER_URL = "http://127.0.0.1:4723";
 
     @Before
-    public void setUp() throws MalformedInputException, MalformedURLException {
+    public void setUp() throws MalformedURLException {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+
         UiAutomator2Options options = new UiAutomator2Options()
                 .setPlatformName("Android")
                 .setAutomationName("UiAutomator2")
@@ -27,10 +32,15 @@ public class AppiumHooks {
                 .setAppPackage("edu.pe.cibertec.shooping_cart_appium_demo")
                 .setAppActivity("edu.pe.cibertec.shooping_cart_appium_demo.MainActivity")
                 .setNoReset(false)
-                .setNewCommandTimeout(Duration.ofSeconds(120));
+                .setNewCommandTimeout(Duration.ofSeconds(120))
+                .setUiautomator2ServerInstallTimeout(Duration.ofSeconds(90))
+                .setUiautomator2ServerLaunchTimeout(Duration.ofSeconds(90))
+                .setAdbExecTimeout(Duration.ofSeconds(90))
+                .setDisableWindowAnimation(true)
+                .setClearDeviceLogsOnStart(true);
 
-        driver = new AndroidDriver(options);
-
+        driver = new AndroidDriver(new URL(APPIUM_SERVER_URL), options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         OnStage.setTheStage(Cast.whereEveryoneCan(actor -> actor.whoCan(
                 BrowseTheWeb.with(driver)
         )));
@@ -38,13 +48,15 @@ public class AppiumHooks {
 
     @After
     public void tearDown() {
-        if (driver != null) {
-            driver.quit();
+        try {
+            if (driver != null) {
+                driver.quit();
+            }
+        } finally {
+            driver = null;
+            OnStage.drawTheCurtain();
         }
-        OnStage.drawTheCurtain();
     }
 
-    public static AndroidDriver getDriver() {
-        return driver;
-    }
+
 }

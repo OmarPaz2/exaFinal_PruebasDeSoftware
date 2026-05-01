@@ -16,5 +16,18 @@ public class LoginScreen {
 
     public static final Target LOGIN_BUTTON = Target
             .the("login button")
-            .located(AppiumBy.xpath("//android.widget.ScrollView/android.view.View[1]/android.widget.Button"));
+            .located(AppiumBy.androidUIAutomator(
+            "new UiSelector().className(\"android.widget.Button\").instance(1)"
+    ));
+
+    public static final Target LOGIN_TITLE = Target
+            .the("login title")
+            .located(AppiumBy.xpath("//android.widget.TextView[@text='Shopping Cart']"));
+
+    public static final Target LOGIN_ERROR_MESSAGE = Target
+            .the("login error message")
+            .located(AppiumBy.xpath(
+                    "//*[contains(@text,'Contraseña incorrecta') " +
+                            "or contains(@text,'Email no registrado')]"
+            ));
 }

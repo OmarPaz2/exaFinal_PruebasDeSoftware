@@ -6,9 +6,13 @@ import net.serenitybdd.screenplay.questions.Visibility;
 import net.serenitybdd.screenplay.targets.Target;
 
 public class TheMainScreen {
-    private static final Target HOME_INDICATOR = Target
+    public static final Target HOME_INDICATOR = Target
             .the("man screen indicator")
             .located(AppiumBy.xpath("//android.widget.TextView[@text=\"Productos\"]"));
+
+    public static final Target PROFILE_TAB = Target
+            .the("profile tab")
+            .located(AppiumBy.xpath("//android.widget.TextView[@text='Perfil']"));
 
     public static Question<Boolean> isVisible() {
         return Visibility.of(HOME_INDICATOR).asBoolean();
